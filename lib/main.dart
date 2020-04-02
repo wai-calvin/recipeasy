@@ -32,11 +32,15 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       style: optionStyle,
     ),
     Text(
-      'Index 1: Business',
+      'Index 1: Recipes',
       style: optionStyle,
     ),
     Text(
-      'Index 2: School',
+      'Index 2: Ingredients',
+      style: optionStyle,
+    ),
+    Text(
+      'Index 3: Random ',
       style: optionStyle,
     ),
   ];
@@ -58,25 +62,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
+
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            title: Text('Search By Recipe'),
+            title: Text('Recipe'),
           ),
+
           BottomNavigationBarItem(
             icon: Icon(Icons.add_shopping_cart),
-            title: Text('Search By Ingredients'),
+            title: Text('Ingredients'),
           ),
+
           BottomNavigationBarItem(
-            icon: Icon(Icons.add_shopping_cart),
-            title: Text('Search By Ingredients'),
+            icon: Icon(Icons.room_service),
+            title: Text('Random'),
           ),
+
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Colors.lightGreen[800],
         onTap: _onItemTapped,
       ),
     );
