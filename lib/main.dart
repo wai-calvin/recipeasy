@@ -1,94 +1,72 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
+import 'recipe.dart';
+import 'random.dart';
+import 'ingredients.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(SampleApp());
 
-/// This Widget is the main application widget.
-class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
-
+class SampleApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
-      home: MyStatefulWidget(),
+      title: 'Bottom Navigation Bar Demo',
+      home: BottomNavigationBarController(),
     );
   }
 }
 
-class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
-
+class BottomNavigationBarController extends StatefulWidget {
   @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+  _BottomNavigationBarControllerState createState() =>
+      _BottomNavigationBarControllerState();
 }
 
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
+class _BottomNavigationBarControllerState
+    extends State<BottomNavigationBarController> {
+  final List<Widget> pages = [
+    HomePage(
+      key: PageStorageKey('HomePage'),
     ),
-    Text(
-      'Index 1: Recipes',
-      style: optionStyle,
+    RecipePage(
+      key: PageStorageKey('RecipePage'),
     ),
-    Text(
-      'Index 2: Ingredients',
-      style: optionStyle,
+    IngredientsPage(
+      key: PageStorageKey('IngredientsPage'),
     ),
-    Text(
-      'Index 3: Random ',
-      style: optionStyle,
+    RandomPage(
+      key: PageStorageKey('RecentPage'),
     ),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  final PageStorageBucket bucket = PageStorageBucket();
+
+  int _selectedIndex = 0;
+
+  Widget _bottomNavigationBar(int selectedIndex) => BottomNavigationBar(
+    onTap: (int index) => setState(() => _selectedIndex = index),
+    currentIndex: selectedIndex,
+    type: BottomNavigationBarType.fixed,
+    items: const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+          icon: Icon(Icons.home), title: Text('Home')),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.list), title: Text('Recipe')),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.add_shopping_cart), title: Text('Ingredients')),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.room_service), title: Text('Random')),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            title: Text('Recipe'),
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_shopping_cart),
-            title: Text('Ingredients'),
-          ),
-
-          BottomNavigationBarItem(
-            icon: Icon(Icons.room_service),
-            title: Text('Random'),
-          ),
-
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.lightGreen[800],
-        onTap: _onItemTapped,
+      bottomNavigationBar: _bottomNavigationBar(_selectedIndex),
+      body: PageStorage(
+        child: pages[_selectedIndex],
+        bucket: bucket,
       ),
     );
   }
