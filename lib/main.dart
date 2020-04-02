@@ -63,12 +63,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
+            icon: Icon(Icons.list),
+            title: Text('Search By Recipe'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
+            icon: Icon(Icons.add_shopping_cart),
+            title: Text('Search By Ingredients'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_shopping_cart),
+            title: Text('Search By Ingredients'),
           ),
         ],
         currentIndex: _selectedIndex,
