@@ -7,7 +7,8 @@ class IngredientsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Ingredients Screen"),
+        title: Text("RECIPEASY"),
+        centerTitle: true,
       ),
       body: Text("Search Recipe by Ingredients"),
     );

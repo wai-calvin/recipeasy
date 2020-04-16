@@ -7,7 +7,8 @@ class RecipePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Recipe Screen"),
+        title: Text("RECIPEASY"),
+        centerTitle: true,
       ),
       body: Text("Search Recipe"),
     );

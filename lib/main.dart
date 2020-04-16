@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'recipe.dart';
-import 'random.dart';
-import 'ingredients.dart';
+import 'screens/home_page.dart';
+import 'screens/recipe.dart';
+import 'screens/random.dart';
+import 'screens/ingredients.dart';
 
 void main() => runApp(SampleApp());
 
