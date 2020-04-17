@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
 
+//class RecipeScreen extends StatefulWidget {
+//  //This stateful widget page takes in String mealType and Recipe recipe
+//  final String mealType;
+//  final Recipe recipe;
+//
+//  RecipeScreen({this.mealType, this.recipe});
+//
+//
+//  @override
+//  _RecipeScreenState createState() => _RecipeScreenState();
+//}
+
 class RandomPage extends StatelessWidget {
   const RandomPage({Key key}) : super(key: key);
 

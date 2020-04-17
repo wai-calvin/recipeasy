@@ -32,12 +32,12 @@ class ApiService {
 
     try {
       //http.get to retrieve the response
-      print(uri);
       var response = await http.get(uri,headers: headers);
       //decode the body of the response into a map
-      Map<String,dynamic> recipe = json.decode(response.body);
-      print(recipe.runtimeType);
-      print(recipe);
+      var recipe = json.decode(response.body);
+      recipe = recipe['recipes'][0];
+//      recipe.forEach((k,v) => print('$k : $v'));
+      print(recipe['spoonacularSourceUrl']);
     } catch (err) {
       //If our response has error, we throw an error message
       throw err.toString();
