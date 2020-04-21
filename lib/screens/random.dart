@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
 
-//class RecipeScreen extends StatefulWidget {
-//  //This stateful widget page takes in String mealType and Recipe recipe
-//  final String mealType;
-//  final Recipe recipe;
-//
-//  RecipeScreen({this.mealType, this.recipe});
-//
-//
-//  @override
-//  _RecipeScreenState createState() => _RecipeScreenState();
-//}
-
 class RandomPage extends StatelessWidget {
   const RandomPage({Key key}) : super(key: key);
 
-  void _getRandomRecipe() async {
-    await ApiService.instance.randomRecipe();
+  void _getRandomRecipe(BuildContext context) async {
+    var recipe = await ApiService.instance.randomRecipe();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RandomRecipe(recipe: recipe)),
+    );
+    //    print(recipe['spoonacularSourceUrl']);
   }
 
   @override
@@ -29,10 +22,33 @@ class RandomPage extends StatelessWidget {
       ),
       body: Text("Get Random Recipe"),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: _getRandomRecipe,
+        onPressed: (){
+           _getRandomRecipe(context);
+        },
         label: Text('Get Random Recipe'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+}
+
+class RandomRecipe extends StatefulWidget {
+  //It returns a final mealPlan variable
+  final Map<String,dynamic> recipe;
+  RandomRecipe({this.recipe});
+
+  @override
+  _RandomRecipeState createState() => _RandomRecipeState();
+}
+
+class _RandomRecipeState extends State<RandomRecipe> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("RECIPEASY"),
+        centerTitle: true,
+      ),
+      body: Text(widget.recipe['spoonacularSourceUrl']),
     );
   }
 }

@@ -19,7 +19,7 @@ class ApiService {
     'apiKey': API_KEY,
   };
 
-  void randomRecipe() async{
+  Future<Map<String,dynamic>> randomRecipe() async{
     Uri uri = Uri.https(
       _baseURL,
       '/recipes/random',
@@ -36,8 +36,8 @@ class ApiService {
       //decode the body of the response into a map
       var recipe = json.decode(response.body);
       recipe = recipe['recipes'][0];
-//      recipe.forEach((k,v) => print('$k : $v'));
-      print(recipe['spoonacularSourceUrl']);
+//      recipe.forEach((k,v) => print('${k}: ${v}'));
+      return recipe;
     } catch (err) {
       //If our response has error, we throw an error message
       throw err.toString();
