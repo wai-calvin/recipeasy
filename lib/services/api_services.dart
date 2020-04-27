@@ -36,7 +36,7 @@ class ApiService {
       //decode the body of the response into a map
       var recipe = json.decode(response.body);
       recipe = recipe['recipes'][0];
-//      recipe.forEach((k,v) => print('${k}: ${v}'));
+      recipe.forEach((k,v) => print('${k}: ${v}'));
       return recipe;
     } catch (err) {
       //If our response has error, we throw an error message

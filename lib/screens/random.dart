@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RandomPage extends StatelessWidget {
   const RandomPage({Key key}) : super(key: key);
@@ -48,7 +49,12 @@ class _RandomRecipeState extends State<RandomRecipe> {
         title: Text("RECIPEASY"),
         centerTitle: true,
       ),
-      body: Text(widget.recipe['spoonacularSourceUrl']),
+      body: WebView(
+        initialUrl: widget.recipe['spoonacularSourceUrl'],
+        //JS unrestricted, so that JS can execute in the webview
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
+//      Text(widget.recipe['spoonacularSourceUrl']),
     );
   }
 }
