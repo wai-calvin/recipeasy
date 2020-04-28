@@ -12,6 +12,10 @@ class SampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bottom Navigation Bar Demo',
+      theme: ThemeData(
+        primaryColor: Colors.greenAccent,
+        accentColor: Colors.greenAccent,
+      ),
       home: BottomNavigationBarController(),
     );
   }
@@ -23,8 +27,7 @@ class BottomNavigationBarController extends StatefulWidget {
       _BottomNavigationBarControllerState();
 }
 
-class _BottomNavigationBarControllerState
-    extends State<BottomNavigationBarController> {
+class _BottomNavigationBarControllerState extends State<BottomNavigationBarController> {
   final List<Widget> pages = [
     HomePage(
       key: PageStorageKey('HomePage'),
@@ -36,7 +39,7 @@ class _BottomNavigationBarControllerState
       key: PageStorageKey('IngredientsPage'),
     ),
     RandomPage(
-      key: PageStorageKey('RecentPage'),
+      key: PageStorageKey('RandomPage'),
     ),
   ];
 
@@ -50,13 +53,17 @@ class _BottomNavigationBarControllerState
     type: BottomNavigationBarType.fixed,
     items: const <BottomNavigationBarItem>[
       BottomNavigationBarItem(
-          icon: Icon(Icons.home), title: Text('Home')),
+          icon: Icon(Icons.home),
+          title: Text('Home')),
       BottomNavigationBarItem(
-          icon: Icon(Icons.list), title: Text('Recipe')),
+          icon: Icon(Icons.list),
+          title: Text('Recipe')),
       BottomNavigationBarItem(
-          icon: Icon(Icons.add_shopping_cart), title: Text('Ingredients')),
+          icon: Icon(Icons.add_shopping_cart),
+          title: Text('Ingredients')),
       BottomNavigationBarItem(
-          icon: Icon(Icons.room_service), title: Text('Random')),
+          icon: Icon(Icons.room_service),
+          title: Text('Random')),
     ],
   );
 
