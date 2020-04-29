@@ -80,18 +80,23 @@ class _RecipeResultState extends State<RecipeResults> {
         itemCount: 3,
         itemBuilder: (context, index) {
           return Card(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      "https://spoonacular.com/recipeImages/" +
-                         widget.recipe['results'][index]['image']
-                  ),
-                  fit: BoxFit.scaleDown,
+              color: Colors.blueGrey[100],
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+                child: Column(
+                  children: <Widget>[
+                    Text(widget.recipe['results'][index]['title']),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.network(
+                          "https://spoonacular.com/recipeImages/" +
+                          widget.recipe['results'][0]['image']
+                      ),
+                    )
+                  ],
                 ),
-              ),
-              child: Text(widget.recipe['results'][index]['title']),
-            ),
+              )
           );
         },
       )
