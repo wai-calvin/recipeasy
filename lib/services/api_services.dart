@@ -35,9 +35,7 @@ class ApiService {
       var response = await http.get(uri,headers: headers);
       //decode the body of the response into a map
       var recipe = json.decode(response.body);
-      print(recipe);
       recipe = recipe['recipes'][0];
-      print(recipe);
       //recipe.forEach((k,v) => print('${k}: ${v}'));
       return recipe;
     } catch (err) {
@@ -101,8 +99,6 @@ class ApiService {
       var response = await http.get(uri,headers: headers);
       //decode the body of the response into a map
       var recipe = json.decode(response.body);
-      print(recipe[0]);
-//      recipe = recipe['recipes'][0];
 //      recipe.forEach((k,v) => print('${k}: ${v}'));
       return recipe;
     } catch (err) {
@@ -110,4 +106,33 @@ class ApiService {
       throw err.toString();
     }
   }
+
+  Future<String> retrieveUrl(int id) async{
+    Map<String, String> parameters = {
+      'apiKey': API_KEY,
+    };
+
+    Uri uri = Uri.https(
+      _baseURL,
+      '/recipes/${id}/information',
+      parameters,
+    );
+
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    try {
+      //http.get to retrieve the response
+      var response = await http.get(uri,headers: headers);
+      //decode the body of the response into a map
+      var result = json.decode(response.body);
+      return result['sourceUrl'];
+    } catch (err) {
+      //If our response has error, we throw an error message
+      throw err.toString();
+    }
+  }
 }
+
+
