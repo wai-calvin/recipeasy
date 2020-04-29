@@ -127,6 +127,8 @@ class ApiService {
       var response = await http.get(uri,headers: headers);
       //decode the body of the response into a map
       var result = json.decode(response.body);
+      result.forEach((k,v) => print('${k}: ${v}'));
+
       return result['sourceUrl'];
     } catch (err) {
       //If our response has error, we throw an error message
