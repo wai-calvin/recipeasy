@@ -72,7 +72,7 @@ class _RandomRecipeState extends State<RandomRecipe> {
               ),
             ),
             Container(
-              height: 275,
+              height: 237,
               width: double.infinity,
               margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -80,7 +80,7 @@ class _RandomRecipeState extends State<RandomRecipe> {
                   color: Colors.white,
                   image: DecorationImage(
                     image: NetworkImage(widget.recipe['image']),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.scaleDown,
                   ),
                   borderRadius: BorderRadius.circular(15),
                   boxShadow: [
@@ -88,9 +88,48 @@ class _RandomRecipeState extends State<RandomRecipe> {
                         color: Colors.black12, offset: Offset(0, 2), blurRadius: 6)
                   ]),
             ),
-          ],
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              decoration: BoxDecoration(
+                color: Colors.blueGrey[100],
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12, offset: Offset(0, 2), blurRadius: 6)
+                ]),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Ready in: ${widget.recipe['readyInMinutes']} minutes',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child:  Text(
+                      'Servings: ${widget.recipe['servings']}',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Vegan: ${widget.recipe['vegan']}",
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      "Gluten Free: ${widget.recipe['glutenFree']}",
+                    ),
+                  ),
+                ],
+              )
+              )],
+            ),
         ),
-      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){
           goToRecipe(widget.recipe['spoonacularSourceUrl']);
