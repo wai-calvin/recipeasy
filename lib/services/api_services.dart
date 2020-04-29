@@ -10,16 +10,16 @@ class ApiService {
   ApiService._instantiate();
   static final ApiService instance = ApiService._instantiate();
 
-
   //Add base URL for the spoonacular API, endpoint and API Key as a constant
   final String _baseURL = "api.spoonacular.com";
   static const String API_KEY ="c65b8ed1479f48b6b8300c5413968e82";
 
-  Map<String, String> parameters = {
-    'apiKey': API_KEY,
-  };
-
   Future<Map<String,dynamic>> randomRecipe() async{
+
+    Map<String, String> parameters = {
+      'apiKey': API_KEY,
+    };
+
     Uri uri = Uri.https(
       _baseURL,
       '/recipes/random',
@@ -45,6 +45,11 @@ class ApiService {
   }
 
   Future<Map<String,dynamic>> findRecipe() async {
+
+    Map<String, String> parameters = {
+      'apiKey': API_KEY,
+    };
+
     Uri uri = Uri.https(
       _baseURL,
       '/recipes/search',
