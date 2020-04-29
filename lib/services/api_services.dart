@@ -12,7 +12,8 @@ class ApiService {
 
   //Add base URL for the spoonacular API, endpoint and API Key as a constant
   final String _baseURL = "api.spoonacular.com";
-  static const String API_KEY ="c65b8ed1479f48b6b8300c5413968e82";
+  static const String API_KEY = "e0847270afe348168a896fb1e496dbea";
+  //static const String API_KEY ="c65b8ed1479f48b6b8300c5413968e82";
 
   Future<Map<String,dynamic>> randomRecipe() async{
 
@@ -35,8 +36,10 @@ class ApiService {
       var response = await http.get(uri,headers: headers);
       //decode the body of the response into a map
       var recipe = json.decode(response.body);
+      print(recipe);
       recipe = recipe['recipes'][0];
-//      recipe.forEach((k,v) => print('${k}: ${v}'));
+      print(recipe);
+      //recipe.forEach((k,v) => print('${k}: ${v}'));
       return recipe;
     } catch (err) {
       //If our response has error, we throw an error message
@@ -47,9 +50,9 @@ class ApiService {
   Future<Map<String,dynamic>> findRecipe(String input) async {
 
     Map<String, String> parameters = {
-      'query': input,
-      'number': '5',
       'apiKey': API_KEY,
+      'query': input,
+      'number': '3',
     };
 
     Uri uri = Uri.https(
@@ -58,16 +61,19 @@ class ApiService {
       parameters,
     );
 
+    print(uri);
+
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
     };
 
     try {
       var response = await http.get(uri,headers: headers);
-      var recipe = json.decode(response.body);
-      recipe = recipe['recipes'][0];
-      recipe.forEach((k,v) => print('${k}: ${v}'));
-      return recipe;
+      var results = json.decode(response.body);
+      print(results);
+//      print(results['results'].length);
+//      result.forEach((k) => print('${k}'));
+      return results;
     } catch (err) {
       throw err.toSring();
     }
