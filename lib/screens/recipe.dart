@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RecipePage extends StatefulWidget {
   const RecipePage({Key key}) : super(key: key);
@@ -85,6 +86,7 @@ class RecipeResults extends StatefulWidget {
 class _RecipeResultState extends State<RecipeResults> {
 
     void goToRecipe(int id) async{
+      saveToPrefs(id);
       var url = await ApiService.instance.retrieveUrl(id);
       Navigator.push(
         context,
@@ -92,13 +94,14 @@ class _RecipeResultState extends State<RecipeResults> {
       );
     }
 
+    Future<bool> saveToPrefs(int id) async {
+      var info = await ApiService.instance.retrieveTitle(id);
+      print(info);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("title", info);
 
-//    void goToRecipe(String url){
-//      Navigator.push(
-//        context,
-//        MaterialPageRoute(builder: (context) => ViewRecipe(url: url)),
-//      );
-//    }
+      return prefs.commit();
+    }
 
     @override
     Widget build(BuildContext context){
@@ -143,42 +146,6 @@ class _RecipeResultState extends State<RecipeResults> {
       );
     }
 }
-
-//    @override
-//    Widget build(BuildContext context) {
-//    // TODO: implement build
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text("Recipeasy"),
-//        centerTitle: true,
-//      ),
-//      body: ListView.builder(
-//        itemCount: 3,
-//        itemBuilder: (context, index) {
-//          return Card(
-//              color: Colors.white,
-//              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-//              child: Padding(
-//                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
-//                child: Column(
-//                  children: <Widget>[
-//                    Text(widget.recipe['results'][index]['title']),
-//                    ClipRRect(
-//                      borderRadius: BorderRadius.circular(20.0),
-//                      child: Image.network(
-//                          "https://spoonacular.com/recipeImages/" +
-//                          widget.recipe['results'][index]['image']
-//                      ),
-//                    )
-//                  ],
-//                ),
-//              )
-//          );
-//        },
-//      )
-//    );
-//  }
-//}
 
 class NoRecipeResults extends StatefulWidget {
   @override
