@@ -33,7 +33,6 @@ class RandomPage extends StatelessWidget {
 }
 
 class RandomRecipe extends StatefulWidget {
-  //It returns a final mealPlan variable
   final Map<String,dynamic> recipe;
   RandomRecipe({this.recipe});
 
@@ -142,7 +141,6 @@ class _RandomRecipeState extends State<RandomRecipe> {
 }
 
 class ViewRecipe extends StatefulWidget {
-  //It returns a final mealPlan variable
   final String url;
   ViewRecipe({this.url});
 

@@ -195,7 +195,6 @@ class _IngredientPageState extends State<IngredientsPage>{
 }
 
 class RecipesFound extends StatefulWidget {
-  //It returns a final mealPlan variable
   final List<dynamic> recipes;
   RecipesFound({this.recipes});
 
@@ -204,6 +203,14 @@ class RecipesFound extends StatefulWidget {
 }
 
 class _RecipesFoundState extends State<RecipesFound> {
+
+  void goToRecipe(int id) async{
+    var url = await ApiService.instance.retrieveUrl(id);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ViewRecipe(url: url)),
+    );
+  }
 
   @override
   Widget build(BuildContext context){
@@ -215,32 +222,59 @@ class _RecipesFoundState extends State<RecipesFound> {
       body: ListView.builder(
         itemCount: widget.recipes.length,
         itemBuilder: (context, index) {
-          return Card(
+          return Container(
             color: Colors.blueGrey[100],
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 7, 0, 10),
-              child: Column(
-                children: <Widget>[
-                  Text(
+            child: InkWell(
+              onTap: () {goToRecipe(widget.recipes[index]['id']);},
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(5, 7, 5, 10),
+                child: Column(
+                  children: <Widget>[
+                    Text(
                       widget.recipes[index]['title'],
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
-                      ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Image.network(
-                      widget.recipes[index]['image'],
                     ),
-                  )
-                ],
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.network(
+                        widget.recipes[index]['image'],
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           );
         }
       )
+    );
+  }
+}
+
+class ViewRecipe extends StatefulWidget {
+  final String url;
+  ViewRecipe({this.url});
+
+  @override
+  _ViewRecipeState createState() => _ViewRecipeState();
+}
+
+class _ViewRecipeState extends State<ViewRecipe> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("RECIPEASY"),
+        centerTitle: true,
+      ),
+      body: WebView(
+        initialUrl: widget.url,
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
     );
   }
 }
