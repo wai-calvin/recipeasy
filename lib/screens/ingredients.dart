@@ -219,10 +219,16 @@ class _RecipesFoundState extends State<RecipesFound> {
             color: Colors.blueGrey[100],
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
+              padding: EdgeInsets.fromLTRB(0, 7, 0, 10),
               child: Column(
                 children: <Widget>[
-                  Text(widget.recipes[index]['title']),
+                  Text(
+                      widget.recipes[index]['title'],
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                      ),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image.network(
