@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:recipeasy/model/recipe_model.dart';
 
-
 class ApiService {
   //The API service will be a singleton, therefore create a private constructor
   //ApiService._instantiate(), and a static instance variable
@@ -70,6 +69,39 @@ class ApiService {
       return recipe;
     } catch (err) {
       throw err.toSring();
+    }
+  }
+
+  Future<List<dynamic>> recipeByIngr(String ingr) async{
+
+    Map<String, String> parameters = {
+      'apiKey': API_KEY,
+      'ingredients': ingr,
+      'number' : '3',
+    };
+
+    Uri uri = Uri.https(
+      _baseURL,
+      '/recipes/findByIngredients',
+      parameters,
+    );
+
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    try {
+      //http.get to retrieve the response
+      var response = await http.get(uri,headers: headers);
+      //decode the body of the response into a map
+      var recipe = json.decode(response.body);
+      print(recipe[0]);
+//      recipe = recipe['recipes'][0];
+//      recipe.forEach((k,v) => print('${k}: ${v}'));
+      return recipe;
+    } catch (err) {
+      //If our response has error, we throw an error message
+      throw err.toString();
     }
   }
 }
