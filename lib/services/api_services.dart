@@ -44,9 +44,11 @@ class ApiService {
     }
   }
 
-  Future<Map<String,dynamic>> findRecipe() async {
+  Future<Map<String,dynamic>> findRecipe(String input) async {
 
     Map<String, String> parameters = {
+      'query': input,
+      'number': '5',
       'apiKey': API_KEY,
     };
 
