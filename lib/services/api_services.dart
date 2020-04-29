@@ -163,6 +163,35 @@ class ApiService {
       throw err.toString();
     }
   }
+
+  Future<Map<String,dynamic>> retrieveNF(int id) async{
+    Map<String, String> parameters = {
+      'apiKey': API_KEY,
+    };
+
+    Uri uri = Uri.https(
+      _baseURL,
+      '/recipes/${id}/nutritionWidget.json',
+      parameters,
+    );
+
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    try {
+      //http.get to retrieve the response
+      var response = await http.get(uri,headers: headers);
+      //decode the body of the response into a map
+      var result = json.decode(response.body);
+      result.forEach((k,v) => print('${k}: ${v}'));
+
+      return result['sourceUrl'];
+    } catch (err) {
+      //If our response has error, we throw an error message
+      throw err.toString();
+    }
+  }
 }
 
 
