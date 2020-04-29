@@ -12,7 +12,11 @@ class HomePage extends StatelessWidget {
         title: Text("RECIPEASY"),
         centerTitle: true,
       ),
-      body: Text("Home Page"),
+      body: Center(
+        child: Container(
+          child: Text("EASY PEASY, RECIPEASY!")
+        )
+      ),
     );
   }
 }
