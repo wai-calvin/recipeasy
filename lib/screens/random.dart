@@ -2,11 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class RandomPage extends StatelessWidget {
+class RandomPage extends StatefulWidget {
   const RandomPage({Key key}) : super(key: key);
+  @override
+  RandomPageState createState() => RandomPageState();
+}
+
+class RandomPageState extends State<RandomPage> {
+  //const RandomPage({Key key}) : super(key: key);
 
   void _getRandomRecipe(BuildContext context) async {
-    var recipe = await ApiService.instance.randomRecipe();
+    List<String> tags = [];
+    if(vegetarian){
+      tags.add('vegetarian');
+    }
+    if(vegan){
+      tags.add('vegan');
+    }
+    if(glutenFree){
+      tags.add('glutenFree');
+    }
+    if(dairyFree){
+      tags.add('dairyFree');
+    }
+    var recipe = await ApiService.instance.randomRecipe(tags.join(','));
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => RandomRecipe(recipe: recipe)),
@@ -14,12 +33,76 @@ class RandomPage extends StatelessWidget {
     //    print(recipe['spoonacularSourceUrl']);
   }
 
+  bool vegetarian = false;
+  bool glutenFree = false;
+  bool vegan = false;
+  bool dairyFree = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("RECIPEASY"),
         centerTitle: true,
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Vegetarian"),
+                  Checkbox(
+                    value: vegetarian,
+                    onChanged: (bool value) {
+                      setState(() {
+                        vegetarian = value;
+                      });
+                    },
+                  ),
+                  Text("Vegan"),
+                  Checkbox(
+                    value: vegan,
+                    onChanged: (bool value) {
+                      setState(() {
+                        vegan = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Gluten Free"),
+                  Checkbox(
+                    value: glutenFree,
+                    onChanged: (bool value) {
+                      setState(() {
+                        glutenFree = value;
+                      });
+                    },
+                  ),
+                  Text("Dairy Free"),
+                  Checkbox(
+                    value: dairyFree,
+                    onChanged: (bool value) {
+                      setState(() {
+                        dairyFree = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){

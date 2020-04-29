@@ -14,10 +14,11 @@ class ApiService {
   static const String API_KEY = "e0847270afe348168a896fb1e496dbea";
   //static const String API_KEY ="c65b8ed1479f48b6b8300c5413968e82";
 
-  Future<Map<String,dynamic>> randomRecipe() async{
+  Future<Map<String,dynamic>> randomRecipe(String tags) async{
 
     Map<String, String> parameters = {
       'apiKey': API_KEY,
+      'tags' : tags,
     };
 
     Uri uri = Uri.https(
@@ -36,7 +37,7 @@ class ApiService {
       //decode the body of the response into a map
       var recipe = json.decode(response.body);
       recipe = recipe['recipes'][0];
-      //recipe.forEach((k,v) => print('${k}: ${v}'));
+      recipe.forEach((k,v) => print('${k}: ${v}'));
       return recipe;
     } catch (err) {
       //If our response has error, we throw an error message
@@ -81,7 +82,7 @@ class ApiService {
     Map<String, String> parameters = {
       'apiKey': API_KEY,
       'ingredients': ingr,
-      'number' : '3',
+      'number' : '4',
     };
 
     Uri uri = Uri.https(
