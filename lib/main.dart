@@ -32,7 +32,7 @@ class _BottomNavigationBarControllerState extends State<BottomNavigationBarContr
     HomePage(
       key: PageStorageKey('HomePage'),
     ),
-    RecipePage(
+    SearchRecipePage(
       key: PageStorageKey('RecipePage'),
     ),
     IngredientsPage(
