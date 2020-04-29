@@ -20,11 +20,23 @@ class _RecipePageState extends State<RecipePage> {
 
   void _getRecipe(BuildContext context, String input) async {
     var recipe = await ApiService.instance.findRecipe(input);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => RecipeResults(recipe: recipe)),
-    );
-    //print(recipe['results'][0]['title']);
+//    Navigator.push(
+//      context,
+//      MaterialPageRoute(builder: (context) => RecipeResults(recipe: recipe)),
+//    );
+    if(recipe['results'][0]['title'] == null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => NoRecipeResults()),
+      );
+    }
+
+    else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => RecipeResults(recipe: recipe)),
+      );
+    }
   }
 
   @override
@@ -39,6 +51,17 @@ class _RecipePageState extends State<RecipePage> {
         padding: const EdgeInsets.all(16.0),
         child: TextField(
           controller: myController,
+          decoration: InputDecoration(
+            hintText: 'Enter Recipe...',
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              borderSide: BorderSide(color: Colors.greenAccent, width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              borderSide: BorderSide(color: Colors.greenAccent),
+            ),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -80,7 +103,7 @@ class _RecipeResultState extends State<RecipeResults> {
         itemCount: 3,
         itemBuilder: (context, index) {
           return Card(
-              color: Colors.blueGrey[100],
+              color: Colors.white,
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 0, vertical: 15),
@@ -91,7 +114,7 @@ class _RecipeResultState extends State<RecipeResults> {
                       borderRadius: BorderRadius.circular(20.0),
                       child: Image.network(
                           "https://spoonacular.com/recipeImages/" +
-                          widget.recipe['results'][0]['image']
+                          widget.recipe['results'][index]['image']
                       ),
                     )
                   ],
@@ -102,119 +125,27 @@ class _RecipeResultState extends State<RecipeResults> {
       )
     );
   }
+}
 
-//    @override
-//    Widget build(BuildContext context) {
-//      return Scaffold(
-//        appBar: AppBar(
-//          title: Text("RECIPEASY"),
-//          centerTitle: true,
-//        ),
-//        body: Container(
-//          child: ListView(
-//            padding: const EdgeInsets.all(8),
-//            children: <Widget>[
-//              Padding(
-//                padding: EdgeInsets.all(16.0),
-//                child: Text(
-//                  widget.recipe['results'][0]['title'],
-//                  textAlign: TextAlign.center,
-//                  style: TextStyle(
-//                      fontSize: 25,
-//                      fontWeight: FontWeight.bold),
-//                ),
-//              ),
-//              Container(
-//                height: 237,
-//                width: double.infinity,
-//                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-//                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-//                decoration: BoxDecoration(
-//                    color: Colors.white,
-//                    image: DecorationImage(
-//                      image: NetworkImage("https://spoonacular.com/recipeImages/" +
-//                          widget.recipe['results'][0]['image']
-//                      ),
-//                      fit: BoxFit.scaleDown,
-//                    ),
-//                    borderRadius: BorderRadius.circular(15),
-//                    boxShadow: [
-//                      BoxShadow(
-//                          color: Colors.black12, offset: Offset(0, 2), blurRadius: 6)
-//                    ]),
-//              ),
-//              Container(
-//                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-//                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-//                  decoration: BoxDecoration(
-//                      color: Colors.blueGrey[100],
-//                      borderRadius: BorderRadius.circular(15),
-//                      boxShadow: [
-//                        BoxShadow(
-//                            color: Colors.black12, offset: Offset(0, 2), blurRadius: 6)
-//                      ]),
-//                  child: Column(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[
-//                      Padding(
-//                        padding: EdgeInsets.all(8.0),
-//                        child: Text(
-//                          'Ready in: ${widget.recipe['results'][0]['readyInMinutes']} minutes',
-//                        ),
-//                      ),
-//                      Padding(
-//                        padding: EdgeInsets.all(8.0),
-//                        child:  Text(
-//                          'Servings: ${widget.recipe['results'][0]['servings']}',
-//                        ),
-//                      ),
-//                    ],
-//                  )
-//              )],
-//          ),
-//        ),
-//        floatingActionButton: FloatingActionButton.extended(
-//          onPressed: (){
-//            goToRecipe(widget.recipe['spoonacularSourceUrl']);
-//          },
-//          label: Text('  See Recipe  '),
-//        ),
-//        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      //);
-    }
+class NoRecipeResults extends StatefulWidget {
+  @override
+  _NoRecipeResultState createState() => _NoRecipeResultState();
+}
 
+class _NoRecipeResultState extends State<NoRecipeResults> {
 
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Search Recipes'),
+      ),
+      body: Text('No results found.'),
+    );
+  }
+}
 
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(
-//        title: Text("RECIPEASY"),
-//        centerTitle: true,
-//      ),
-//      body: new ListView.builder(
-//        itemCount: 3,
-//        itemBuilder: (BuildContext context, int index) {
-//          return Dismissible(
-//            child: Card(
-//              elevation: 5,
-//              child: Container(
-//                height: 50.0,
-//                child: Row(
-//                  children: <Widget>[
-//                    Text(widget.recipe['results'][index]['title']),
-//                  ]
-//                )
-//              )
-//            ),
-//          );
-//          //return new Text(widget.recipe['results'][index]['title']);
-//        },
-//      )
-//
-//    );
-//  }
-//}
 
 class ViewRecipe extends StatefulWidget {
   //It returns a final mealPlan variable
