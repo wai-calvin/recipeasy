@@ -43,4 +43,26 @@ class ApiService {
       throw err.toString();
     }
   }
+
+  Future<Map<String,dynamic>> findRecipe() async {
+    Uri uri = Uri.https(
+      _baseURL,
+      '/recipes/search',
+      parameters,
+    );
+
+    Map<String, String> headers = {
+      HttpHeaders.contentTypeHeader: 'application/json',
+    };
+
+    try {
+      var response = await http.get(uri,headers: headers);
+      var recipe = json.decode(response.body);
+      recipe = recipe['recipes'][0];
+      recipe.forEach((k,v) => print('${k}: ${v}'));
+      return recipe;
+    } catch (err) {
+      throw err.toSring();
+    }
+  }
 }
