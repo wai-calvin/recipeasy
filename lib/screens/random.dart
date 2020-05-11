@@ -26,6 +26,12 @@ class RandomPageState extends State<RandomPage> {
       tags.add('dairyFree');
     }
     var recipe = await ApiService.instance.randomRecipe(tags.join(','));
+    var nf = await ApiService.instance.retrieveNF(recipe['id']);
+    print(nf);
+    recipe['calories'] = nf['calories'];
+    recipe['carbs'] = nf['carbs'];
+    recipe['fat'] = nf['fat'];
+    recipe['protein'] = nf['protein'];
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => RandomRecipe(recipe: recipe)),
@@ -184,27 +190,39 @@ class _RandomRecipeState extends State<RandomRecipe> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(7.0),
                     child: Text(
                       'Ready in: ${widget.recipe['readyInMinutes']} minutes',
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(7.0),
                     child:  Text(
                       'Servings: ${widget.recipe['servings']}',
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(7.0),
                     child: Text(
-                      "Vegan: ${widget.recipe['vegan']}",
+                      "Calories: ${widget.recipe['calories']}",
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(7.0),
                     child: Text(
-                      "Gluten Free: ${widget.recipe['glutenFree']}",
+                      "Carbs: ${widget.recipe['carbs']}",
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(7.0),
+                    child: Text(
+                      "Fat: ${widget.recipe['fat']}",
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(7.0),
+                    child: Text(
+                      "Protein: ${widget.recipe['protein']}",
                     ),
                   ),
                 ],

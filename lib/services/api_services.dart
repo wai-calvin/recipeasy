@@ -37,7 +37,7 @@ class ApiService {
       //decode the body of the response into a map
       var recipe = json.decode(response.body);
       recipe = recipe['recipes'][0];
-      recipe.forEach((k,v) => print('${k}: ${v}'));
+//      recipe.forEach((k,v) => print('${k}: ${v}'));
       return recipe;
     } catch (err) {
       //If our response has error, we throw an error message
@@ -59,7 +59,7 @@ class ApiService {
       parameters,
     );
 
-    print(uri);
+//    print(uri);
 
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: 'application/json',
@@ -68,7 +68,7 @@ class ApiService {
     try {
       var response = await http.get(uri,headers: headers);
       var results = json.decode(response.body);
-      print(results);
+//      print(results);
 //      print(results['results'].length);
 //      result.forEach((k) => print('${k}'));
       return results;
@@ -128,7 +128,7 @@ class ApiService {
       var response = await http.get(uri,headers: headers);
       //decode the body of the response into a map
       var result = json.decode(response.body);
-      result.forEach((k,v) => print('${k}: ${v}'));
+//      result.forEach((k,v) => print('${k}: ${v}'));
 
       return result['sourceUrl'];
     } catch (err) {
@@ -184,9 +184,7 @@ class ApiService {
       var response = await http.get(uri,headers: headers);
       //decode the body of the response into a map
       var result = json.decode(response.body);
-      result.forEach((k,v) => print('${k}: ${v}'));
-
-      return result['sourceUrl'];
+      return result;
     } catch (err) {
       //If our response has error, we throw an error message
       throw err.toString();
