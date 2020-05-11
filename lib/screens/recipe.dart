@@ -48,22 +48,30 @@ class _RecipePageState extends State<RecipePage> {
         title: Text('Search Recipes'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: TextField(
-          controller: myController,
-          decoration: InputDecoration(
-            hintText: 'Enter Recipe...',
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide(color: Colors.greenAccent, width: 2),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide(color: Colors.greenAccent),
-            ),
-          ),
-        ),
+      body: Center(
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 370,
+                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                child: TextField(
+                  controller: myController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter Recipe...',
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                      borderSide: BorderSide(color: Colors.greenAccent, width: 2),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                      borderSide: BorderSide(color: Colors.greenAccent),
+                    ),
+                  ),
+                ),
+              ),
+            ]
+        )
       ),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
