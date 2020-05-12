@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:recipeasy/screens/recentSearched.dart';
 
 class RecipePage extends StatefulWidget {
   const RecipePage({Key key}) : super(key: key);
@@ -17,6 +18,33 @@ class _RecipePageState extends State<RecipePage> {
   void dispose() {
     myController.dispose();
     super.dispose();
+  }
+
+  Future<void> _showSearch() async {
+    final searchText = await showSearch<String>(
+      context: context,
+      delegate: SearchWithSuggestionDelegate(
+        onSearchChanged: _getRecentSearchesLike,
+      ),
+    );
+    await _saveToRecentSearches(searchText);
+  }
+
+  Future<List<String>> _getRecentSearchesLike(String query) async {
+    final pref = await SharedPreferences.getInstance();
+    final allSearches = pref.getStringList("recentSearches");
+    return allSearches.where((search) => search.startsWith(query)).toList();
+  }
+
+  Future<void> _saveToRecentSearches(String searchText) async {
+    if (searchText == null) return;
+    final pref = await SharedPreferences.getInstance();
+
+    Set<String> allSearches =
+        pref.getStringList("recentSearches")?.toSet() ?? {};
+
+    allSearches = {searchText, ...allSearches};
+    pref.setStringList("recentSearches", allSearches.toList());
   }
 
   void _getRecipe(BuildContext context, String input) async {
@@ -45,7 +73,13 @@ class _RecipePageState extends State<RecipePage> {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Recipes'),
+        title: Text('Recipeasy'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: _showSearch,
+          ),
+        ],
         centerTitle: true,
       ),
       body: Center(
