@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RandomPage extends StatefulWidget {
   const RandomPage({Key key}) : super(key: key);
@@ -131,7 +132,20 @@ class RandomRecipe extends StatefulWidget {
 
 class _RandomRecipeState extends State<RandomRecipe> {
 
-  void goToRecipe(String url){
+  _save(int id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> myList = (prefs.getStringList('mylist') ?? List<String>());
+
+    if(myList.length > 2){
+      myList.removeLast();
+    }
+    myList.insert(0, id.toString());
+    await prefs.setStringList('mylist', myList);
+  }
+
+  void goToRecipe(String url, int id){
+    _save(id);
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ViewRecipe(url: url)),
@@ -232,7 +246,7 @@ class _RandomRecipeState extends State<RandomRecipe> {
         ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: (){
-          goToRecipe(widget.recipe['spoonacularSourceUrl']);
+          goToRecipe(widget.recipe['spoonacularSourceUrl'],widget.recipe['id']);
         },
         label: Text('  See Recipe  '),
       ),

@@ -74,12 +74,6 @@ class _RecipePageState extends State<RecipePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Recipeasy'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: _showSearch,
-          ),
-        ],
         centerTitle: true,
       ),
       body: Center(
@@ -126,23 +120,24 @@ class RecipeResults extends StatefulWidget {
 }
 
 class _RecipeResultState extends State<RecipeResults> {
+    _save(int id) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String> myList = (prefs.getStringList('mylist') ?? List<String>());
+
+      if(myList.length > 2){
+        myList.removeLast();
+      }
+      myList.insert(0, id.toString());
+      await prefs.setStringList('mylist', myList);
+    }
 
     void goToRecipe(int id) async{
-      saveToPrefs(id);
+      _save(id);
       var url = await ApiService.instance.retrieveUrl(id);
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ViewRecipe(url: url)),
       );
-    }
-
-    Future<bool> saveToPrefs(int id) async {
-      var info = await ApiService.instance.retrieveTitle(id);
-      print(info);
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString("title", info);
-
-      return prefs.commit();
     }
 
     @override
@@ -175,7 +170,9 @@ class _RecipeResultState extends State<RecipeResults> {
                               borderRadius: BorderRadius.circular(20.0),
                               child: Image.network(
                                   "https://spoonacular.com/recipeImages/" +
-                                      widget.recipe['results'][index]['image']
+                                      widget.recipe['results'][index]['image'],
+                                fit: BoxFit.scaleDown,
+                                height: 300,
                               ),
                             )
                           ],

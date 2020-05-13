@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipeasy/services/api_services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IngredientsPage extends StatefulWidget {
   const IngredientsPage({Key key}) : super(key: key);
@@ -204,8 +205,20 @@ class RecipesFound extends StatefulWidget {
 
 class _RecipesFoundState extends State<RecipesFound> {
 
+  _save(int id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> myList = (prefs.getStringList('mylist') ?? List<String>());
+
+    if(myList.length > 2){
+      myList.removeLast();
+    }
+    myList.insert(0, id.toString());
+    await prefs.setStringList('mylist', myList);
+  }
+
   void goToRecipe(int id) async{
     var url = await ApiService.instance.retrieveUrl(id);
+    _save(id);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ViewRecipe(url: url)),
